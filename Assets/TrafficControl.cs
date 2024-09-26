@@ -20,6 +20,7 @@ public class TrafficControl : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // find all gameobjects
         t1 = transform.Find("TL1");
         t2 = transform.Find("TL2");
         t3 = transform.Find("TL3");
@@ -30,6 +31,7 @@ public class TrafficControl : MonoBehaviour
         t3green = t3.Find("Green light").gameObject;
         t3red = t3.Find("Red light").gameObject;
 
+        // set initial timer and state
         stateTimer = 10.0f;
         SetState(1);
     }
@@ -37,29 +39,46 @@ public class TrafficControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        // update state timer
+        stateTimer -= Time.deltaTime;
+
+        // if state timer is 0, reset and swap state
+        if (stateTimer < 0)
+        {
+            stateTimer = 10.0f;
+
+            if (state == 1)
+            {
+                SetState(2);
+            }
+            else
+            {
+                SetState(1);
+            }
+        }
     }
 
     void SetState(int c)
     {
+        // en/disable lights based on state
         state = c;
         if (c == 1)
         {
-            t1green.active = true;
-            t1red.active = false;
-            t2green.active = false;
-            t2red.active = true;
-            t3green.active = false;
-            t3red.active = true;
+            t1green.SetActive(true);
+            t1red.SetActive(false);
+            t2green.SetActive(false);
+            t2red.SetActive(true);
+            t3green.SetActive(false);
+            t3red.SetActive(true);
         }
         else
         {
-            t1green.active = false;
-            t1red.active = true;
-            t2green.active = true;
-            t2red.active = false;
-            t3green.active = true;
-            t3red.active = false;
+            t1green.SetActive(false);
+            t1red.SetActive(true);
+            t2green.SetActive(true);
+            t2red.SetActive(false);
+            t3green.SetActive(true);
+            t3red.SetActive(false);
         }
     }   
 }
