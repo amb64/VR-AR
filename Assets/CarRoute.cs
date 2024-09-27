@@ -134,7 +134,7 @@ public class CarRoute : MonoBehaviour
     void OnTriggerEnter(Collider coll)
     {
         // checks in front of the car for pedestrians
-        if (coll.gameObject.tag == "Pedestrian" || coll.gameObject.tag == "Player")
+        if (coll.gameObject.tag == "Pedestrian" || coll.gameObject.tag == "Player") 
         {
             stop = true;
             //Debug.Log("Collided with " + coll.gameObject.name);
@@ -170,9 +170,27 @@ public class CarRoute : MonoBehaviour
 
     }
 
+    void OnCollisionEnter(Collision coll)
+    {
+        // NEED A 2ND COLLIDER THAT IS NOT A TRIGGER FOR THIS TO WORK - maybe make one thats for the front and back for car collision, and just the front for pedestrian collision?
+        if (coll.gameObject.tag == "Car")
+        {
+            stop = true;
+        }
+    }
+
+    void OnCollisionExit(Collision coll)
+    {
+        if (coll.gameObject.tag == "Car")
+        {
+            StartCoroutine(ExitDelay());
+            stop = false;
+        }
+    }
+
     IEnumerator ExitDelay()
     {
         Debug.Log("Waiting to be safe!");
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(1.0f);
     }
 }

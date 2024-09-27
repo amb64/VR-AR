@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Pedestrian
   - Crossing
+  - Car
   layers:
   - Default
   - TransparentFX
