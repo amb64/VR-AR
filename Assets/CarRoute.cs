@@ -19,6 +19,9 @@ public class CarRoute : MonoBehaviour
     public GameObject crossing;
     public bool isUnsafe = false;
 
+    public GameObject front;
+    public GameObject back;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -89,6 +92,7 @@ public class CarRoute : MonoBehaviour
                 if (targetWP >= route.Count)
                 {
                     //Debug.Log("New route! " + gameObject.name);
+                    StartCoroutine(RouteDelay());
                     SetRoute();
                     return;
                 }
@@ -137,7 +141,17 @@ public class CarRoute : MonoBehaviour
         if (coll.gameObject.tag == "Pedestrian" || coll.gameObject.tag == "Player") 
         {
             stop = true;
-            //Debug.Log("Collided with " + coll.gameObject.name);
+            Debug.Log("Collided with " + coll.gameObject.name);
+        }
+        else if (coll.gameObject.name == "Back")
+        {
+            stop = true;
+            Debug.Log("Car hit the back of another car, stopping!");
+        }
+        else if (coll.gameObject.name == "Front")
+        {
+            stop = false;
+            Debug.Log("Hit the front, keep moving");
         }
     }
 
@@ -165,12 +179,18 @@ public class CarRoute : MonoBehaviour
         {
             StartCoroutine(ExitDelay());
             stop = false;
-            //Debug.Log(coll.gameObject.name + " left car boundary");
+            Debug.Log(coll.gameObject.name + " left car boundary");
+        }
+        else if (coll.gameObject.name == "Back" || coll.gameObject.name == "Front")
+        {
+            StartCoroutine(ExitDelay());
+            stop = false;
+            Debug.Log(coll.gameObject.name + " left car boundary");
         }
 
     }
 
-    void OnCollisionEnter(Collision coll)
+    /*void OnCollisionEnter(Collision coll)
     {
         // NEED A 2ND COLLIDER THAT IS NOT A TRIGGER FOR THIS TO WORK - maybe make one thats for the front and back for car collision, and just the front for pedestrian collision?
         if (coll.gameObject.tag == "Car")
@@ -186,11 +206,17 @@ public class CarRoute : MonoBehaviour
             StartCoroutine(ExitDelay());
             stop = false;
         }
-    }
+    }*/
 
     IEnumerator ExitDelay()
     {
-        Debug.Log("Waiting to be safe!");
+        //Debug.Log("Waiting to be safe!");
         yield return new WaitForSeconds(1.0f);
+    }
+
+    IEnumerator RouteDelay()
+    {
+        float delay = Random.Range(0.0f, 5.0f);
+        yield return new WaitForSeconds(delay);
     }
 }
