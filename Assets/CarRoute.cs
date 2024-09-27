@@ -114,6 +114,10 @@ public class CarRoute : MonoBehaviour
             Quaternion rotation = Quaternion.LookRotation(desiredForward);
             rb.MoveRotation(rotation);
         }
+        else
+        {
+            Debug.Log("Cant move");
+        }
         
     }
 
