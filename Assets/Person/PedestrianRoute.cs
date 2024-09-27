@@ -58,7 +58,7 @@ public class PedestrianRoute : MonoBehaviour
             if (initialDelay <= 0.0f)
             {
                 go = true;
-                Debug.Log("Let's go!! " + gameObject.name);
+                //Debug.Log("Let's go!! " + gameObject.name);
                 SetRoute();
             }
             else return;
@@ -76,7 +76,7 @@ public class PedestrianRoute : MonoBehaviour
 
             if (targetWP >= route.Count)
             {
-                Debug.Log("New route! " + gameObject.name);
+                //Debug.Log("New route! " + gameObject.name);
                 SetRoute();
                 return;
             }

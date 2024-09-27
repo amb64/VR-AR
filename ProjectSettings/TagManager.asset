@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Pedestrian
+  - Crossing
   layers:
   - Default
   - TransparentFX
