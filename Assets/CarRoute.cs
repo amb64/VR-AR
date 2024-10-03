@@ -19,8 +19,10 @@ public class CarRoute : MonoBehaviour
     public GameObject crossing;
     public bool isUnsafe = false;
 
-    public GameObject front;
-    public GameObject back;
+    public GameObject frontCar;
+    public GameObject backCar;
+    public CarFrontControl front;
+    public CarBackControl back;
 
     // Start is called before the first frame update
     void Start()
@@ -29,6 +31,9 @@ public class CarRoute : MonoBehaviour
         GameObject wp;
 
         rb = GetComponent<Rigidbody>();
+
+        front = frontCar.GetComponent<CarFrontControl>();
+        back = backCar.GetComponent<CarBackControl>();
 
         // finds waypoints
         wp = GameObject.Find("RP1");
@@ -76,6 +81,11 @@ public class CarRoute : MonoBehaviour
             }
             else return;
         }
+
+        stop = back.stop;
+        isUnsafe = back.isUnsafe;
+        stop = front.stop;
+        isUnsafe = front.isUnsafe;
 
         if (!stop && !isUnsafe)
         {
@@ -139,7 +149,7 @@ public class CarRoute : MonoBehaviour
 
     }
 
-    void OnTriggerEnter(Collider coll)
+    /*void OnTriggerEnter(Collider coll)
     {
         // checks in front of the car for pedestrians
         if (coll.gameObject.tag == "Pedestrian" || coll.gameObject.tag == "Player") 
@@ -173,11 +183,11 @@ public class CarRoute : MonoBehaviour
             else
             {
                 Debug.Log("Should be safe to drive now!");
-            }*/
+            }
         }
-    }
+    }*/
 
-    void OnTriggerExit(Collider coll)
+    /*void OnTriggerExit(Collider coll)
     {
         if (coll.gameObject.tag == "Pedestrian" || coll.gameObject.tag == "Player")
         {
@@ -192,7 +202,7 @@ public class CarRoute : MonoBehaviour
             Debug.Log(coll.gameObject.name + " left car boundary");
         }
 
-    }
+    }*/
 
     /*void OnCollisionEnter(Collision coll)
     {
@@ -212,11 +222,11 @@ public class CarRoute : MonoBehaviour
         }
     }*/
 
-    IEnumerator ExitDelay()
+    /*IEnumerator ExitDelay()
     {
         //Debug.Log("Waiting to be safe!");
         yield return new WaitForSeconds(1.0f);
-    }
+    }*/
 
     IEnumerator RouteDelay()
     {
