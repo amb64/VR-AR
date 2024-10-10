@@ -17,6 +17,10 @@ public class TrafficControl : MonoBehaviour
     public float stateTimer;
     public int state;
 
+    public bool light1;
+    public bool light2;
+    public bool light3;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -56,6 +60,10 @@ public class TrafficControl : MonoBehaviour
                 SetState(1);
             }
         }
+
+        /*Debug.Log("Light 1 - " + light1);
+        Debug.Log("Light 2 - " + light2);
+        Debug.Log("Light 3 - " + light3);*/
     }
 
     void SetState(int c)
@@ -70,6 +78,10 @@ public class TrafficControl : MonoBehaviour
             t2red.SetActive(true);
             t3green.SetActive(false);
             t3red.SetActive(true);
+
+            light1 = false;
+            light2 = true;
+            light3 = true;
         }
         else
         {
@@ -79,6 +91,10 @@ public class TrafficControl : MonoBehaviour
             t2red.SetActive(false);
             t3green.SetActive(true);
             t3red.SetActive(false);
+
+            light1 = true;
+            light2 = false;
+            light3 = false;
         }
     }   
 }

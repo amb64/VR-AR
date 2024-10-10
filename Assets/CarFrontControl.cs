@@ -7,6 +7,8 @@ public class CarFrontControl : MonoBehaviour
     public bool stop = false;
     public bool isUnsafe = false;
 
+    public 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,22 +23,7 @@ public class CarFrontControl : MonoBehaviour
 
     void OnTriggerEnter(Collider coll)
     {
-        // checks in front of the car for pedestrians
-        if (coll.gameObject.tag == "Pedestrian" || coll.gameObject.tag == "Player")
-        {
-            stop = true;
-            Debug.Log("Collided with " + coll.gameObject.name);
-        }
-        else if (coll.gameObject.name == "Back")
-        {
-            stop = true;
-            Debug.Log("Car hit the back of another car, stopping!");
-        }
-        else if (coll.gameObject.name == "Front")
-        {
-            stop = false;
-            Debug.Log("Hit the front, keep moving");
-        }
+        
     }
 
     void OnTriggerStay(Collider coll)
@@ -55,6 +42,45 @@ public class CarFrontControl : MonoBehaviour
                 Debug.Log("Should be safe to drive now!");
             }*/
         }
+        
+        if(coll.gameObject.name == "Boundary")
+        {
+            GameObject light = coll.transform.parent.gameObject;
+            light = light.transform.parent.gameObject;
+            string lightName = light.name;
+
+            if(lightName == "TL1")
+            {
+                isUnsafe = light.gameObject.GetComponent<TrafficControl>().light1;
+            }
+            else if(lightName == "TL2")
+            {
+                isUnsafe = light.gameObject.GetComponent<TrafficControl>().light2;
+            }
+            else if(lightName == "TL3")
+            {
+                isUnsafe = light.gameObject.GetComponent<TrafficControl>().light3;
+            }
+
+            Debug.Log("Is unsafe? = " + isUnsafe);
+        }
+
+        // checks in front of the car for pedestrians
+        if (coll.gameObject.tag == "Pedestrian" || coll.gameObject.tag == "Player")
+        {
+            stop = true;
+            //Debug.Log("Collided with " + coll.gameObject.name);
+        }
+        else if (coll.gameObject.name == "Back")
+        {
+            stop = true;
+            //Debug.Log("Car hit the back of another car, stopping!");
+        }
+        else if (coll.gameObject.name == "Front")
+        {
+            stop = false;
+            //Debug.Log("Hit the front, keep moving");
+        }
     }
 
     void OnTriggerExit(Collider coll)
@@ -63,13 +89,13 @@ public class CarFrontControl : MonoBehaviour
         {
             StartCoroutine(ExitDelay());
             stop = false;
-            Debug.Log(coll.gameObject.name + " left car boundary");
+            //Debug.Log(coll.gameObject.name + " left car boundary");
         }
         else if (coll.gameObject.name == "Back" || coll.gameObject.name == "Front")
         {
             StartCoroutine(ExitDelay());
             stop = false;
-            Debug.Log(coll.gameObject.name + " left car boundary");
+            //Debug.Log(coll.gameObject.name + " left car boundary");
         }
 
     }

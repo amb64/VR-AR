@@ -82,10 +82,23 @@ public class CarRoute : MonoBehaviour
             else return;
         }
 
-        stop = back.stop;
-        isUnsafe = back.isUnsafe;
-        stop = front.stop;
-        isUnsafe = front.isUnsafe;
+        if (back.isUnsafe || front.isUnsafe)
+        {
+            isUnsafe = true;
+        }
+        else
+        {
+            isUnsafe = false;
+        }
+
+        if (back.stop || front.stop)
+        {
+            stop = true;
+        }
+        else
+        {
+            stop = false;
+        }
 
         if (!stop && !isUnsafe)
         {
@@ -126,7 +139,7 @@ public class CarRoute : MonoBehaviour
         }
         else
         {
-            Debug.Log("Cant move");
+            //Debug.Log("Cant move");
         }
         
     }

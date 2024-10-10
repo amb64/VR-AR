@@ -21,22 +21,7 @@ public class CarBackControl : MonoBehaviour
 
     void OnTriggerEnter(Collider coll)
     {
-        if (coll.gameObject.tag == "Pedestrian" || coll.gameObject.tag == "Player")
-        {
-            // if the back of the car is past a person just continue
-            stop = false;
-            Debug.Log("Collided with " + coll.gameObject.name);
-        }
-        else if (coll.gameObject.name == "Back")
-        {
-            stop = false;
-            Debug.Log("Car back hit the back of another car, keep moving");
-        }
-        else if (coll.gameObject.name == "Front")
-        {
-            stop = false;
-            Debug.Log("Hit the front, keep moving");
-        }
+        
     }
 
     void OnTriggerStay(Collider coll)
@@ -52,6 +37,23 @@ public class CarBackControl : MonoBehaviour
                 isUnsafe = false;
             }
         }
+
+        if (coll.gameObject.tag == "Pedestrian" || coll.gameObject.tag == "Player")
+        {
+            // if the back of the car is past a person just continue
+            stop = false;
+            //Debug.Log("Collided with " + coll.gameObject.name);
+        }
+        else if (coll.gameObject.name == "Back")
+        {
+            stop = false;
+            //Debug.Log("Car back hit the back of another car, keep moving");
+        }
+        else if (coll.gameObject.name == "Front")
+        {
+            stop = false;
+            //Debug.Log("Hit the front, keep moving");
+        }
     }
 
     void OnTriggerExit(Collider coll)
@@ -60,13 +62,13 @@ public class CarBackControl : MonoBehaviour
         {
             StartCoroutine(ExitDelay());
             stop = false;
-            Debug.Log(coll.gameObject.name + " left car boundary");
+            //Debug.Log(coll.gameObject.name + " left car boundary");
         }
         else if (coll.gameObject.name == "Back" || coll.gameObject.name == "Front")
         {
             StartCoroutine(ExitDelay());
             stop = false;
-            Debug.Log(coll.gameObject.name + " left car boundary");
+            //Debug.Log(coll.gameObject.name + " left car boundary");
         }
 
     }
