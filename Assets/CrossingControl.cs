@@ -37,7 +37,7 @@ public class CrossingControl : MonoBehaviour
 
     IEnumerator ExitDelay()
     {
-        Debug.Log("Waiting to be safe!");
+        //Debug.Log("Waiting to be safe!");
         yield return new WaitForSeconds(2.0f);
     }
 }

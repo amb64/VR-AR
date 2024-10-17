@@ -28,6 +28,8 @@ public class CarFrontControl : MonoBehaviour
 
     void OnTriggerStay(Collider coll)
     {
+        Debug.Log(this.transform.parent.gameObject.name + " collided with " + coll.gameObject.name);
+
         // checks the pedestrian crossing for pedestrians
         if (coll.gameObject.tag == "Crossing")
         {
@@ -46,23 +48,28 @@ public class CarFrontControl : MonoBehaviour
         if(coll.gameObject.name == "Boundary")
         {
             GameObject light = coll.transform.parent.gameObject;
-            light = light.transform.parent.gameObject;
             string lightName = light.name;
+            light = light.transform.parent.gameObject;
+
+            //Debug.Log(lightName);
 
             if(lightName == "TL1")
             {
+                //Debug.Log("Traffic light variable L1 - " + light.gameObject.GetComponent<TrafficControl>().light1);
                 isUnsafe = light.gameObject.GetComponent<TrafficControl>().light1;
             }
             else if(lightName == "TL2")
             {
+                //Debug.Log("Traffic light variable L2 - " + light.gameObject.GetComponent<TrafficControl>().light2);
                 isUnsafe = light.gameObject.GetComponent<TrafficControl>().light2;
             }
             else if(lightName == "TL3")
             {
+                //Debug.Log("Traffic light variable L3 - " + light.gameObject.GetComponent<TrafficControl>().light3);
                 isUnsafe = light.gameObject.GetComponent<TrafficControl>().light3;
             }
 
-            Debug.Log("Is unsafe? = " + isUnsafe);
+            //Debug.Log("Is unsafe? = " + isUnsafe);
         }
 
         // checks in front of the car for pedestrians
