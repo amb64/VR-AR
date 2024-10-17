@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -23,6 +24,12 @@ public class CarRoute : MonoBehaviour
     public GameObject backCar;
     public CarFrontControl front;
     public CarBackControl back;
+
+    public float oSpeed = 10.0f;
+    public float speed = 0.0f;
+
+    public bool starting = true;
+    public bool stopping = false;
 
     // Start is called before the first frame update
     void Start()
@@ -94,10 +101,49 @@ public class CarRoute : MonoBehaviour
         if (back.stop || front.stop)
         {
             stop = true;
+            stopping = true;
+            starting = false;
         }
         else
         {
             stop = false;
+            starting = true;
+            stopping = false;
+        }
+
+        // acceleration and decceleration, scaled to occur faster
+        if(starting)
+        {
+            if (speed < oSpeed)
+            {
+                speed += (Time.deltaTime * 5);
+            }
+            else
+            {
+                starting = false;
+            }
+        }
+
+        if(stopping)
+        {
+            if (speed > 0)
+            {
+                speed -= (Time.deltaTime * 5);
+            }
+            else
+            {
+                stopping = false;
+            }
+
+        }
+
+        if (speed < 0)
+        {
+            speed = 0;
+        }
+        else if (speed > 10.0f)
+        {
+            speed = 10.0f;
         }
 
         if (!stop && !isUnsafe)
@@ -107,7 +153,7 @@ public class CarRoute : MonoBehaviour
             displacement.y = 0;
             dist = displacement.magnitude;
 
-            // check when the pedestrian has reached a waypoint, and calculate a new route when the current one has finished
+            // check when the car has reached a waypoint, and calculate a new route when the current one has finished
             if (dist < 0.1f && targetWP > 0)
             {
                 targetWP++;
@@ -124,7 +170,7 @@ public class CarRoute : MonoBehaviour
             //calculate velocity for this frame
             velocity = displacement;
             velocity.Normalize();
-            velocity *= 10.0f;
+            velocity *= speed;
 
             //apply velocity
             Vector3 newPosition = transform.position;

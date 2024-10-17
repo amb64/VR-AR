@@ -26,7 +26,7 @@ public class CarBackControl : MonoBehaviour
 
     void OnTriggerStay(Collider coll)
     {
-        Debug.Log(this.gameObject.transform.gameObject.name + " collided with " + coll.gameObject.name);
+        //Debug.Log(this.gameObject.transform.gameObject.name + " collided with " + coll.gameObject.name);
 
         // checks the pedestrian crossing for pedestrians
         if (coll.gameObject.tag == "Crossing")
