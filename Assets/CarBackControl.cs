@@ -34,7 +34,7 @@ public class CarBackControl : MonoBehaviour
             isUnsafe = coll.gameObject.GetComponent<CrossingControl>().isPedestrian;
 
             // if the back of the car is on the crossing and its unsafe, just keep going because you're already on the crossing!
-            if (isUnsafe)
+            //if (isUnsafe)
             {
                 isUnsafe = false;
             }
@@ -71,6 +71,14 @@ public class CarBackControl : MonoBehaviour
             StartCoroutine(ExitDelay());
             stop = false;
             //Debug.Log(coll.gameObject.name + " left car boundary");
+        }
+        else if (coll.gameObject.name == "Crossing")
+        {
+            isUnsafe = false;
+        }
+        else if (coll.gameObject.name == "Boundary")
+        {
+            isUnsafe = false;
         }
 
     }

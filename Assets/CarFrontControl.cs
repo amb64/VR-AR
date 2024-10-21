@@ -28,11 +28,11 @@ public class CarFrontControl : MonoBehaviour
 
     void OnTriggerStay(Collider coll)
     {
-        //Debug.Log(this.transform.parent.gameObject.name + " collided with " + coll.gameObject.name);
 
         // checks the pedestrian crossing for pedestrians
         if (coll.gameObject.tag == "Crossing")
         {
+            //Debug.Log(this.transform.parent.gameObject.name + " collided with " + coll.gameObject.name);
             isUnsafe = coll.gameObject.GetComponent<CrossingControl>().isPedestrian;
 
             /*if (isUnsafe)
@@ -52,6 +52,7 @@ public class CarFrontControl : MonoBehaviour
             light = light.transform.parent.gameObject;
 
             //Debug.Log(lightName);
+            //Debug.Log(this.transform.parent.gameObject.name + " collided with " + lightName);
 
             if(lightName == "TL1")
             {
@@ -88,6 +89,8 @@ public class CarFrontControl : MonoBehaviour
             stop = false;
             //Debug.Log("Hit the front, keep moving");
         }
+
+        //Debug.Log(this.gameObject.name + ": is unsafe: " + isUnsafe);
     }
 
     void OnTriggerExit(Collider coll)
@@ -103,6 +106,14 @@ public class CarFrontControl : MonoBehaviour
             StartCoroutine(ExitDelay());
             stop = false;
             //Debug.Log(coll.gameObject.name + " left car boundary");
+        }
+        else if (coll.gameObject.name == "Crossing")
+        {
+            isUnsafe = false;
+        }
+        else if (coll.gameObject.name == "Boundary")
+        {
+            isUnsafe = false;
         }
 
     }

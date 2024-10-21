@@ -89,6 +89,10 @@ public class CarRoute : MonoBehaviour
             else return;
         }
 
+        // find out if it is safe
+        //isUnsafe = back.isUnsafe || front.isUnsafe;
+        //stop = back.stop || front.stop;
+
         if (back.isUnsafe || front.isUnsafe)
         {
             isUnsafe = true;
@@ -98,37 +102,33 @@ public class CarRoute : MonoBehaviour
             isUnsafe = false;
         }
 
-        if (back.stop || front.stop)
+        if(back.stop || front.stop)
         {
             stop = true;
-            stopping = true;
-            starting = false;
         }
         else
         {
             stop = false;
+        }
+
+        // stop if we need to stop, start if we need to start
+        if(stop || isUnsafe)
+        {
+            stopping = true;
+            starting = false;
+        }
+        else if(!stop && !isUnsafe)
+        {
             starting = true;
             stopping = false;
         }
 
         // acceleration and decceleration, scaled to occur faster
-        if(starting)
-        {
-            if (speed < oSpeed)
-            {
-                speed += (Time.deltaTime * 5);
-            }
-            else
-            {
-                starting = false;
-            }
-        }
-
         if(stopping)
         {
             if (speed > 0)
             {
-                speed -= (Time.deltaTime * 5);
+                speed -= (Time.deltaTime * 20.0f); // stop faster than you would accelerate
             }
             else
             {
@@ -136,17 +136,29 @@ public class CarRoute : MonoBehaviour
             }
 
         }
+        else if(starting)
+        {
+            if (speed < oSpeed)
+            {
+                speed += (Time.deltaTime * 5.0f);
+            }
+            else
+            {
+                starting = false;
+            }
+        }
 
+        // fix speed variable if under 0 or above max speed
         if (speed < 0)
         {
             speed = 0;
         }
-        else if (speed > 10.0f)
+        else if (speed > oSpeed)
         {
-            speed = 10.0f;
+            speed = oSpeed;
         }
 
-        if (!stop && !isUnsafe)
+        if (speed > 0)
         {
             // calculate the distance to the next target waypoint
             Vector3 displacement = route[targetWP].position - transform.position;
@@ -203,7 +215,16 @@ public class CarRoute : MonoBehaviour
         else if (routeNumber == 4) route = new List<Transform> { wps[7], wps[8],wps[9], wps[5] };
 
         //initialise position and waypoint counter
-        transform.position = new Vector3(route[0].position.x, 0.5f, route[0].position.z);
+        float y = 0.5f;
+
+        // the taxi and bus from the other asset pack float unless you put this in
+        if(this.gameObject.name == "Taxi" || this.gameObject.name == "Bus")
+        {
+            y = 0.0f;
+            //Debug.Log("STOP FLOATINGGG");
+        }
+
+        transform.position = new Vector3(route[0].position.x, y, route[0].position.z);
         targetWP = 1;
 
     }
